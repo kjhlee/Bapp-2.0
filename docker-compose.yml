@@ -14,5 +14,16 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  frontend:
+    build:
+      context: ./bappdat_frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./bappdat_frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
 volumes:
   pgdata:
