@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    container_name: bapp_postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: bapp_db
+      POSTGRES_USER: bapp
+      POSTGRES_PASSWORD: 123456789
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
