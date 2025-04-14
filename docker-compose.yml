@@ -3,16 +3,28 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14
-    restart: always
     container_name: bapp_postgres
     ports:
-      - "5433:5432"
+      - "5433:5432"  # exposed to host as 5433
     environment:
       POSTGRES_DB: bapp_db
       POSTGRES_USER: bapp
       POSTGRES_PASSWORD: 123456789
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./bappdat_backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # host:container
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bapp_postgres:5432/bapp_db
+      SPRING_DATASOURCE_USERNAME: bapp
+      SPRING_DATASOURCE_PASSWORD: 123456789
 
   frontend:
     build:
@@ -25,5 +37,6 @@ services:
       - /app/node_modules
     stdin_open: true
     tty: true
+
 volumes:
   pgdata:
