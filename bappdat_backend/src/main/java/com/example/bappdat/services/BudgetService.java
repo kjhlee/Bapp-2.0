@@ -23,8 +23,12 @@ public class BudgetService {
         return;
     }
 
-    public BudgetCategory updateBudget(BudgetCategory updatedBudget){
-        return budgetRepo.save(updatedBudget);
+    public BudgetCategory updateBudget(BudgetCategory updatedBudget, Long id){
+        BudgetCategory currBudget = budgetRepo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("This budget allocation does not exist"));
+        currBudget.setCategory(updatedBudget.getCategory());
+        currBudget.setPercentage(updatedBudget.getPercentage());
+        return budgetRepo.save(currBudget);
     }
 
     public List<BudgetCategory> getBudgets(){

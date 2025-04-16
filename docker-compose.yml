@@ -21,6 +21,8 @@ services:
       - "8080:8080"  # host:container
     depends_on:
       - postgres
+    volumes:
+      - ./bappdat_backend:/app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://bapp_postgres:5432/bapp_db
       SPRING_DATASOURCE_USERNAME: bapp
